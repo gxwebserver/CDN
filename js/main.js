@@ -8,9 +8,9 @@ let Bing_URL;
 let currentSearchEngine = 'google';
 
 function Get_Bing() { //bing壁纸获取
-    $.get('https://jsonp.afeld.me/?url=http%3A%2F%2Fcn.bing.com%2FHPImageArchive.aspx%3Fformat%3Djs%26idx%3D0%26n%3D1').then(function (data) {
+    $.get('https://jsonp.afeld.me/?url=http%3A%2F%2Fcn.bing.com%2FHPImageArchive.aspx%3Fformat%3Djs%26idx%3D0%26n%3D1').then(function (data) { 
         bgbox.css('background-image', "url(" + "https://cn.bing.com/" + data.images[0]['url'] + ")");
-    })
+    });
 }
 function displayTime() {
     date = new Date();
@@ -166,26 +166,17 @@ function handletranslation(res){
     $('div[name="transform"]').text("翻译：" + $('#input0').val()).append(span);
 }
 
-function Realtime_translation(input) {
-    if (input.charCodeAt() != 32) { //判断是不是空格
-        if (isNaN(input)) { //判断是不是数字
-            var script = document.createElement("script");
-            script.src = "http://fanyi.youdao.com/translate?doctype=json&type=AUTO&i=" + input +"&cb=handletranslation";
-            var Container = document.getElementById('container');
-            Container.appendChild(script);
-        }
-    }
-}
+
 
 
 
 function handleSuggestion(res) {
-    var result = res;
+    var result = res['s'];
     // 判断第一个结果是不是空，修复空输入提示问题
     if (res[0] != "") {
-        // 截取前10个搜索建议项
-        if (result.length >= 9) {
-            result = result.slice(0, 10)
+        // 截取前7个搜索建议项
+        if (result.length >= 7) {
+            result = result.slice(0, 8)
         }
         for (let i = 0; i < result.length; i++) {
             // 动态创建div标签
@@ -223,7 +214,6 @@ searchInput.bind('input propertychange', function (e) {
         // 函数节流优化 
         Input.timer = setTimeout(() => {
             // 创建script标签JSONP跨域
-            Realtime_translation($('#input0').val());
             var script = document.createElement("script");
             script.src = "https://www.baidu.com/su?&wd=" + encodeURI(this.value.trim()) +
                 "&p=3&cb=handleSuggestion";
