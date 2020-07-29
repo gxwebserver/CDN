@@ -328,7 +328,7 @@ $('.nav_links').click(function (e) {
 
 
 window.onload = function () {
-    this.Get_Bing()
+    //this.Get_Bing()
     fetch("https://v1.hitokoto.cn/?c=d&c=h&c=i&c=j&encode=json").then(response => response.json()).then(data => {
         document.getElementsByClassName("quote-content")[0].innerText = "「 " + data["hitokoto"] + " 」";
         document.getElementsByClassName("quote-author")[0].innerText = "——" + data["from"];
